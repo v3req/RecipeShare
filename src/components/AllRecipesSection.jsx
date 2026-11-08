@@ -10,7 +10,7 @@ export default function AllRecipesSection({ recipes }) {
       </div>
       <div className="recipe-grid">
         
-        {recipes.map(recipe => <RecipeCard key = {recipe.id} {...recipe}/>)}
+        {recipes.map(recipe => <RecipeCard key = {recipe.id} {...recipe}/>)}  
           
       </div>
     </div>

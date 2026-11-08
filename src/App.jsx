@@ -24,12 +24,17 @@ function App() {
          .then(data => setRecipes(data))
          .catch(error => console.error('Error fetching recipes:', error));
    }, []);
-  
+
+   const [showAllRecipesModal, setShowAllRecipesModal] = useState(false)
+   const clickShowAllRecipesHandler = (e) => {
+      e.preventDefault()
+      setShowAllRecipesModal(true)
+   }
 
   return (
    <>
   {/* ===== SHARED NAVIGATION ===== */}
-  <Header />  
+  <Header onAllRecipes = {clickShowAllRecipesHandler}/>  
   {/* ==================================================
      1. HOME PAGE
      ================================================== */}
@@ -45,7 +50,7 @@ function App() {
   {/* ==================================================
      4. EXPLORE ALL RECIPES
      ================================================== */}
-  <AllRecipesSection recipes={recipes}/>
+  {showAllRecipesModal && <AllRecipesSection recipes={recipes}/>}
   
   {/* ==================================================
      6. CREATE RECIPE PAGE

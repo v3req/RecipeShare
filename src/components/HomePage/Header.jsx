@@ -1,4 +1,6 @@
-export default function Header() {
+export default function Header({
+  onAllRecipes
+}) {
   return (
     <header>
     <div className="container navbar">
@@ -7,7 +9,7 @@ export default function Header() {
       </a>
       <nav className="nav-links">
         <a href="#home">Home</a>
-        <a href="#explore">Explore Recipes</a>
+        <a href="#" onClick = {onAllRecipes}>Explore Recipes</a>
         <a href="#create">Create</a>
       </nav>
       <div className="nav-actions">
