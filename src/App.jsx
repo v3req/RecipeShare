@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Header from './components/HomePage/Header.jsx'
 import HomePage from './components/HomePage/HoemPage.jsx'
 import LoginSection from './components/LoginSection.jsx'
@@ -8,9 +8,22 @@ import CreateRecipeSection from './components/CreateRecipeSection.jsx'
 import EditRecipeSection from './components/EditRecipeSection.jsx'
 import DetailsPageSection from './components/DetailsPage.jsx/DetailsPageSection.jsx'
 import FooterSection from './components/FooterSection.jsx'
+import { apiKey, baseUrl } from './api/baseurl.js'
 
 
 function App() {
+
+   const [recipes, setRecipes] = useState([]);
+   useEffect(() => {
+      fetch(baseUrl, {
+         method: 'GET',
+         headers: {
+            'apikey': apiKey,}
+      })
+         .then(response => response.json())
+         .then(data => setRecipes(data))
+         .catch(error => console.error('Error fetching recipes:', error));
+   }, []);
   
 
   return (
@@ -32,7 +45,7 @@ function App() {
   {/* ==================================================
      4. EXPLORE ALL RECIPES
      ================================================== */}
-  <AllRecipesSection />
+  <AllRecipesSection recipes={recipes}/>
   
   {/* ==================================================
      6. CREATE RECIPE PAGE
