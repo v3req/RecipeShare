@@ -9,7 +9,7 @@ export default function DetailsPageSection({
 }) {
   const [recipe, setRecipe] = useState(null);
   useEffect(() => {
-    fetch(baseUrl + `?=eq.${id}`, {
+    fetch(baseUrl + `recipes?=eq.${id}`, {
         method: 'GET',
          headers: {
         'apikey': apiKey,}
@@ -17,7 +17,7 @@ export default function DetailsPageSection({
       .then(response => response.json())
       .then(data => setRecipe(data[0]))
       .catch(error => console.error('Error fetching recipes:', error));
-  })
+  },[id]);
   
 
   return (

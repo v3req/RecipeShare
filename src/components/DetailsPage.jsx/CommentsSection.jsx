@@ -1,6 +1,26 @@
 import Comment from "./Comment.jsx";
+import { useState, useEffect } from "react";
+import { apiKey, baseUrl } from "../../api/baseurl.js";
 
-export default function CommentsSection() {
+export default function CommentsSection({
+  recipeId,
+}) {
+  console.log(recipeId)
+  const [comments, setComments] = useState([]);
+  useEffect(() => {
+    fetch(baseUrl + `comments?=eq.${recipeId}&select=*`, {
+         method: 'GET',
+         headers: {
+            'apikey': apiKey,
+          }
+      })
+         .then(response => response.json())
+         .then(data => setComments(data))
+         .catch(error => console.error('Error fetching recipes:', error));
+   }, [recipeId]);
+  
+
+
   return (
  <div className="comments-section">
         <h2 className="section-title">Comments</h2>
@@ -34,13 +54,10 @@ export default function CommentsSection() {
             </button>
           </form>
         </div>
-        {/* Example comment: no profile photo */}
-        <Comment
-          author="Alex Johnson"
-          date="2 days ago"
-          text="This recipe was fantastic! I made it for my family and everyone loved it."
-        />
         
+        {comments.map((comment) => (
+          <Comment key={comment.id} {...comment} />
+        ))}
       </div>
   );
 }

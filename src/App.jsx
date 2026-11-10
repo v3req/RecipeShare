@@ -15,7 +15,7 @@ function App() {
 
    const [recipes, setRecipes] = useState([]);
    useEffect(() => {
-      fetch(baseUrl, {
+      fetch(baseUrl + 'recipes', {
          method: 'GET',
          headers: {
             'apikey': apiKey,}

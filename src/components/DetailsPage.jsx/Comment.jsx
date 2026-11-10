@@ -1,12 +1,16 @@
-export default function Comment({author, date, text}) {
+export default function Comment({
+  created_at,
+  comment,
+  author,
+}) {
     return (
     <div className="comment">
           <p className="comment-name">
             {author}
-            <span className="comment-date">{date}</span>
+            <span className="comment-date">{created_at}</span>
           </p>
           <p className="comment-text">
-            {text}
+            {comment}
           </p>
     </div>
     )
