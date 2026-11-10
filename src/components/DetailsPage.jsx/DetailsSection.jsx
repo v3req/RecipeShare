@@ -1,11 +1,16 @@
-export default function DetailsSection({title, description, imageUrl, category, difficulty, time, ingridients, instructions, author}) {
+export default function DetailsSection({title, description, imageUrl, category, difficulty, time, ingridients, instructions, author, onClose}) {
+  
+ 
+
   return (
     <>
+
     <div className="page-header">
         <a
-          href="#explore"
+          href="#"
           className="small-text"
           style={{ color: "var(--orange)" }}
+          onClick={onClose}
         >
           ← Back to Recipes
         </a>

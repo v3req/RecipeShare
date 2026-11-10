@@ -25,11 +25,29 @@ function App() {
          .catch(error => console.error('Error fetching recipes:', error));
    }, []);
 
+   const [selectedRecipe, setSelectedRecipe] = useState(null)
+
    const [showAllRecipesModal, setShowAllRecipesModal] = useState(false)
    const clickShowAllRecipesHandler = (e) => {
       e.preventDefault()
       setShowAllRecipesModal(true)
+    
    }
+ 
+   const [showDetails, setShowDetails] = useState(false)
+   const clickRecipeCardHandler = (recipeId) => {
+      setShowDetails(true)
+      setShowAllRecipesModal(false)
+      setSelectedRecipe(recipeId)
+   }
+
+
+    const hideModalHandler = (e) => {
+    e.preventDefault();
+    setShowDetails(false);
+    setShowAllRecipesModal(true);
+    setSelectedRecipe(null)
+  }
 
   return (
    <>
@@ -50,7 +68,7 @@ function App() {
   {/* ==================================================
      4. EXPLORE ALL RECIPES
      ================================================== */}
-  {showAllRecipesModal && <AllRecipesSection recipes={recipes}/>}
+  {showAllRecipesModal && <AllRecipesSection recipes={recipes} onClickRecipeCard = {clickRecipeCardHandler}/>}
   
   {/* ==================================================
      6. CREATE RECIPE PAGE
@@ -63,10 +81,12 @@ function App() {
   {/* ==================================================
      8. RECIPE DETAILS & COMMENTS
      ================================================== */}
-  <DetailsPageSection />
+  {showDetails  && <DetailsPageSection recipeId = {selectedRecipe} onClose = {hideModalHandler}/>}
   
   {/* ===== FOOTER ===== */}
   <FooterSection />
+
+  
 </>
   )
 }

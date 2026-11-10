@@ -1,12 +1,30 @@
+import { useEffect, useState } from "react";
+import { apiKey, baseUrl } from "../../api/baseurl";
 import CommentsSection from "./CommentsSection";
 import DetailsSection from "./DetailsSection";
 
-export default function DetailsPageSection() {
+export default function DetailsPageSection({
+  id,
+  onClose
+}) {
+  const [recipe, setRecipe] = useState(null);
+  useEffect(() => {
+    fetch(baseUrl + `?=eq.${id}`, {
+        method: 'GET',
+         headers: {
+        'apikey': apiKey,}
+    })
+      .then(response => response.json())
+      .then(data => setRecipe(data[0]))
+      .catch(error => console.error('Error fetching recipes:', error));
+  })
+  
+
   return (
     <section id="recipe-details" >
     <div className="container">
-           <DetailsSection title="Fresh Garden Salad" description="Fresh vegetables with your favorite dressing." imageUrl="https://images.unsplash.com/photo-1546069901-ba9599a7e63c?auto=format&fit=crop&w=800&q=80" category='Italian' difficulty="Easy" time="15 min" servings={4} ingridients='tomato, something' instructions='prepare'/>
-           <CommentsSection />
+           <DetailsSection {...recipe} onClose = {onClose}/>
+           <CommentsSection recipeId = {id}/>
     </div>
   </section>
   );

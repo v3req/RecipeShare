@@ -1,6 +1,13 @@
-export default function RecipeCard({title, description, imageUrl, difficulty, time}){
+export default function RecipeCard({
+  id,
+  title,
+  description,
+  imageUrl,
+  difficulty,
+  time,
+  onClickRecipeCard}){
     return (
-        <article className="recipe-card">
+        <article className="recipe-card" onClick={() => onClickRecipeCard(id)}>
           <div className="recipe-image">
             <img
               src={imageUrl}
