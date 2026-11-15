@@ -3,17 +3,18 @@ import { create } from "../../api/recipe-Api";
 import useForm from "../../hooks/useForm";
 
 export default function CreateRecipeSection() {
-    const navigate = useNavigate();
+   
 
-    const createHandler = (values) => {
-        create(values)
-        .then(res => console.log(res))
-        .catch(err => console.log(err.message))
-        
+    const createHandler = async (values) => {
+        try {
+            await create(values);
+        } catch (error) {
+            alert(error.message);
+        }
         
     }
 
-    const {values, changeHandler, submitHandler} = useForm({title: '', description:'', imageUrl:'', category: '', difficulty:'', time:'', ingredients:'', intructions:''}, createHandler)
+    const {values, changeHandler, submitHandler} = useForm({title: '', description:'', imageUrl:'', category: '', difficulty:'', time:'', ingredients:'', instructions:''}, createHandler)
 
 
   return (
