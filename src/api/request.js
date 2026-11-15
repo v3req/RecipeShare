@@ -45,10 +45,11 @@ export const authRequest = async (path = "/", method = "GET", data = null, opts 
 };
 
 function getAuthHeader() {
-    const auth = localStorage.getItem("auth");
-    const accessToken = auth ? JSON.parse(auth).access_token : null;
+    
+  const auth = JSON.parse(localStorage.getItem("auth") || "null");
+  const accessToken = auth?.access_token;
 
-    return {
-        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {})
-    };
+  return {
+    ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {})
+  };
 }
