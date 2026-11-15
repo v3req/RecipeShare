@@ -1,6 +1,6 @@
 export default function LoginSection() {
   return (
-    <section id="login" className="page hidden">
+    <section id="login" >
     <div className="auth-section">
       <div className="auth-card">
         <a href="#home" className="logo">

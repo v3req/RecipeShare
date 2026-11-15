@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getAll } from "../../api/recipe-api";
+import { getAll } from "../../api/recipe-Api";
 import RecipeCard from "../recipe-card/RecipeCard";
 
 export default function Catalog() {

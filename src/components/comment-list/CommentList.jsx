@@ -1,6 +1,6 @@
 import { commentApi } from "../../api/index.js";
 import CreateComment from "../cerate-comment/CreateComment.jsx";
-import Comment from "../comment/Comment.jsx";
+import Comment from "../comment/comment.jsx";
 import { useState, useEffect } from "react";
 
 
