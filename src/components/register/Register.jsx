@@ -3,13 +3,8 @@ import useForm from "../../hooks/useForm.jsx";
 import { register } from "../../api/auth-api";
 
 export default function SignupSection() {
-     const  registerHandler = (values) =>{
-       register({...values}).then((res) => {
-        console.log(res);
-       }).catch((err) => {
-        console.log(err);
-       })
-    } 
+     
+
     const {values, changeHandler, submitHandler} = useForm({email: '', password: '', confirm_password: ''}, registerHandler);
     
    

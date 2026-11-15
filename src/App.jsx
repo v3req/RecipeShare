@@ -10,6 +10,7 @@ import DetailsPageSection from './components/details/details.jsx'
 import FooterSection from './components/footer/Footer.jsx'
 import Logout from './components/logout/Logout.jsx'
 import { Route, Routes } from "react-router"
+import { AuthProvider } from './contexts/auth-context.jsx'
 
 
 
@@ -17,8 +18,9 @@ function App() {
 
 
   return (
-   <>
+   
 
+<AuthProvider>
     <Header />
 
             <Routes>
@@ -33,9 +35,9 @@ function App() {
             </Routes>
 
             <FooterSection />
-
+</AuthProvider>
   
-</>
+
   )
 }
 
