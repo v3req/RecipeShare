@@ -1,4 +1,5 @@
-import { commentApi } from "../../api/index.js";
+import { getAllComments } from "../../api/comment-api.js";
+
 import CreateComment from "../cerate-comment/CreateComment.jsx";
 import Comment from "../comment/comment.jsx";
 import { useState, useEffect } from "react";
@@ -10,7 +11,7 @@ export default function CommentsSection({
   
   const [comments, setComments] = useState([]);
   useEffect(() => {
-    commentApi.getAll(recipeId)
+    getAllComments(recipeId)
       .then(data => setComments(data))
       .catch(error => console.error('Error fetching comments:', error));
    }, [recipeId]);
