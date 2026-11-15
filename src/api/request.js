@@ -3,7 +3,7 @@ export const authUrl = 'https://kxivikepqevqgxaxmtjn.supabase.co/auth/v1/';
 export const apiKey = 'sb_publishable__tXct0qMN2nj84pwjpATSA_O_B_2WOZ'
 
 
-async function baserequest (url, path='/', method='GET', data=null, opts={}) {
+async function baseRequest (url, path='/', method='GET', data=null, opts={}) {
     const options = {
         headers: {
             ...opts.headers,
@@ -31,7 +31,7 @@ async function baserequest (url, path='/', method='GET', data=null, opts={}) {
 }
 
 export default async function request(path = "/", method = "GET", data = null, opts = {}){
-    return baserequest(restUrl, path, method, data, opts);
+    return baseRequest(restUrl, path, method, data, opts);
 }
 
 export const authRequest = async (path = "/", method = "GET", data = null, opts = {}) => {

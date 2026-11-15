@@ -1,23 +1,18 @@
 import { useEffect, useState } from "react";
-import { apiKey, restUrl } from "../../api/request.js";
+import request, { apiKey, restUrl } from "../../api/request.js";
 import CommentsSection from "../comment-list/CommentList.jsx";
+import { Link, useParams } from "react-router";
 
 
-export default function DetailsPageSection({
-  id,
-  onClose
-}) {
-  const [recipe, setRecipe] = useState(null);
+export default function DetailsPageSection() {
+  const [recipe, setRecipe] = useState({});
+  const{ recipeId }= useParams(); 
+
   useEffect(() => {
-    fetch(restUrl + `recipes?=eq.${id}`, {
-        method: 'GET',
-         headers: {
-        'apikey': apiKey,}
-    })
-      .then(response => response.json())
-      .then(data => setRecipe(data[0]))
-      .catch(error => console.error('Error fetching recipes:', error));
-  },[id]);
+    request(`/recipes?id=eq.${recipeId}`)
+    .then(data => setRecipe(data[0]))
+    .catch(error => console.error('Error fetching recipe details:', error));
+  },[recipeId]);
   
 
   return (
@@ -25,14 +20,14 @@ export default function DetailsPageSection({
     <div className="container">
 
     <div className="page-header">
-        <a
-          href="#"
+        <Link
+          to="/catalog"
           className="small-text"
           style={{ color: "var(--orange)" }}
-          onClick={onClose}
+          
         >
           ← Back to Recipes
-        </a>
+        </Link>
       </div>
       <div className="details-layout">
         <div className="details-image">
@@ -48,7 +43,7 @@ export default function DetailsPageSection({
           >
             {recipe.category}
           </span>
-          <h1>{title}</h1>
+          <h1>{recipe.title}</h1>
           <p className="details-description">
             {recipe.description}
           </p>
@@ -64,9 +59,7 @@ export default function DetailsPageSection({
             <a href="#edit-recipe" className="btn btn-primary">
               Edit Recipe
             </a>
-            <a href="#dashboard" className="btn btn-outline">
-              Dashboard
-            </a>
+            
           </div>
         </div>
       </div>
@@ -86,7 +79,7 @@ export default function DetailsPageSection({
       </div>
   
     
-           <CommentsSection recipeId = {id}/>
+           <CommentsSection recipeId = {recipeId}/>
     </div>
   </section>
   );
