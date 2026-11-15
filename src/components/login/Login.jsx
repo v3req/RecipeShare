@@ -1,16 +1,27 @@
+import { Link } from "react-router";
+import { login } from "../../api/auth-api";
+import useForm from "../../hooks/useForm";
+
 export default function LoginSection() {
+    const loginHandler = async (values) => {
+        login(values)
+        .then(res => console.log(res))
+        .catch(err => console.log(err.message))
+    }
+    
+    const {values, changeHandler, submitHandler} = useForm({email: '', password: '', confirm_password: ''}, loginHandler);
   return (
     <section id="login" >
     <div className="auth-section">
       <div className="auth-card">
-        <a href="#home" className="logo">
+        <Link to="/" className="logo">
           Recipe<span>Share</span>
-        </a>
+        </Link>
         <h1 style={{ marginTop: 24 }}>Welcome Back!</h1>
         <p className="auth-description">
           Log in to discover recipes and share your cooking ideas.
         </p>
-        <form action="#" method="post">
+        <form onSubmit={submitHandler}>
           <div className="form-group">
             <label htmlFor="login-email">Email Address</label>
             <input
@@ -20,6 +31,7 @@ export default function LoginSection() {
               name="email"
               placeholder="you@example.com"
               required=""
+              onChange={changeHandler}
             />
           </div>
           <div className="form-group">
@@ -31,6 +43,7 @@ export default function LoginSection() {
               name="password"
               placeholder="Enter your password"
               required=""
+              onChange={changeHandler}
             />
           </div>
           <button type="submit" className="btn btn-primary btn-full">
