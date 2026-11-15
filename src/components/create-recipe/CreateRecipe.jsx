@@ -1,4 +1,21 @@
+import { useNavigate, Link } from "react-router";
+import { create } from "../../api/recipe-Api";
+import useForm from "../../hooks/useForm";
+
 export default function CreateRecipeSection() {
+    const navigate = useNavigate();
+
+    const createHandler = (values) => {
+        create(values)
+        .then(res => console.log(res))
+        .catch(err => console.log(err.message))
+        
+        
+    }
+
+    const {values, changeHandler, submitHandler} = useForm({title: '', description:'', imageUrl:'', category: '', difficulty:'', time:'', ingredients:'', intructions:''}, createHandler)
+
+
   return (
     <section id="create-recipe" >
     <div className="container">
@@ -8,7 +25,7 @@ export default function CreateRecipeSection() {
       </div>
       <div className="editor-layout">
         <div className="editor-card">
-          <form action="#" method="post">
+          <form onSubmit={submitHandler}>
             <div className="form-group">
               <label htmlFor="new-title">Recipe Title</label>
               <input
@@ -18,6 +35,8 @@ export default function CreateRecipeSection() {
                 type="text"
                 placeholder="e.g. Creamy Mushroom Pasta"
                 required=""
+                value={values.title}
+                onChange={changeHandler}
               />
             </div>
             <div className="form-group">
@@ -28,7 +47,8 @@ export default function CreateRecipeSection() {
                 name="description"
                 placeholder="Describe your recipe..."
                 required=""
-                defaultValue={""}
+                value={values.description}
+                onChange={changeHandler}
               />
             </div>
             <div className="form-group">
@@ -36,23 +56,14 @@ export default function CreateRecipeSection() {
               <input
                 className="form-control"
                 id="new-image"
-                name="image"
+                name="imageUrl"
                 type="url"
                 placeholder="https://example.com/image.jpg"
+                value={values.imageUrl}
+                onChange={changeHandler}
               />
             </div>
-            <div className="form-group">
-              <label htmlFor="new-upload">Or Choose an Image</label>
-              <div className="upload-box">
-                <p>Choose a food photo from your device.</p>
-                <input
-                  id="new-upload"
-                  name="image_file"
-                  type="file"
-                  accept="image/*"
-                />
-              </div>
-            </div>
+            
             <div className="form-row">
               <div className="form-group">
                 <label htmlFor="new-category">Category</label>
@@ -61,15 +72,17 @@ export default function CreateRecipeSection() {
                   id="new-category"
                   name="category"
                   required=""
+                  value={values.category}
+                  onChange={changeHandler}
                 >
                   <option value="">Select category</option>
-                  <option>Breakfast</option>
-                  <option>Lunch</option>
-                  <option>Dinner</option>
-                  <option>Dessert</option>
-                  <option>Healthy</option>
-                  <option>Italian</option>
-                  <option>Other</option>
+                  <option value='breakfast'>Breakfast</option>
+                  <option value='lunch'>Lunch</option>
+                  <option value='dinner'>Dinner</option>
+                  <option value='dessert'>Dessert</option>
+                  <option value='healthy'>Healthy</option>
+                  <option value='italian'>Italian</option>
+                  <option value='other'>Other</option>
                 </select>
               </div>
               <div className="form-group">
@@ -79,11 +92,13 @@ export default function CreateRecipeSection() {
                   id="new-difficulty"
                   name="difficulty"
                   required=""
+                  value={values.difficulty}
+                  onChange={changeHandler}
                 >
                   <option value="">Select difficulty</option>
-                  <option>Easy</option>
-                  <option>Medium</option>
-                  <option>Hard</option>
+                  <option value='easy'>Easy</option>
+                  <option value='medium'>Medium</option>
+                  <option value='hard'>Hard</option>
                 </select>
               </div>
             </div>
@@ -98,19 +113,11 @@ export default function CreateRecipeSection() {
                   min={1}
                   placeholder={30}
                   required=""
+                  value={values.time}
+                  onChange={changeHandler}
                 />
               </div>
-              <div className="form-group">
-                <label htmlFor="new-servings">Servings</label>
-                <input
-                  className="form-control"
-                  id="new-servings"
-                  name="servings"
-                  type="number"
-                  min={1}
-                  placeholder={4}
-                />
-              </div>
+              
             </div>
             <div className="form-group">
               <label htmlFor="new-ingredients">Ingredients</label>
@@ -120,7 +127,8 @@ export default function CreateRecipeSection() {
                 name="ingredients"
                 placeholder="Enter each ingredient on a new line..."
                 required=""
-                defaultValue={""}
+                value={values.ingredients}
+                onChange={changeHandler}
               />
             </div>
             <div className="form-group">
@@ -132,16 +140,17 @@ export default function CreateRecipeSection() {
                 style={{ minHeight: 180 }}
                 placeholder="Describe the steps to prepare your recipe..."
                 required=""
-                defaultValue={""}
+                value={values.instructions}
+                onChange={changeHandler}
               />
             </div>
             <div className="form-actions">
               <button className="btn btn-primary" type="submit">
                 Publish Recipe
               </button>
-              <a href="#dashboard" className="btn btn-outline">
+              <Link to="/catalog" className="btn btn-outline">
                 Cancel
-              </a>
+              </Link>
             </div>
           </form>
         </div>
