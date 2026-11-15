@@ -6,13 +6,13 @@ export default function Header(
   return (
     <header>
     <div className="container navbar">
-      <a href="#home" className="logo">
+      <Link to="/" className="logo">
         Recipe<span>Share</span>
-      </a>
+      </Link>
       <nav className="nav-links">
         <Link to="/">Home</Link>
         <Link to="/catalog" >Explore Recipes</Link>
-        <Link to="/games/create">Create</Link>
+        <Link to="/recipes/create">Create</Link>
       </nav>
       <div className="nav-actions">
         <Link to="/login" className="btn btn-outline">

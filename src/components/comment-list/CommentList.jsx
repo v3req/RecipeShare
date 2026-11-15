@@ -1,6 +1,6 @@
 import Comment from "../comment/Comment.jsx";
 import { useState, useEffect } from "react";
-import { apiKey, baseUrl } from "../../api/baseurl.js";
+import { apiKey, restUrl } from "../../api/request.js";
 
 export default function CommentsSection({
   recipeId,

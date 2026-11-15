@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { apiKey, baseUrl } from "../../api/baseurl";
+import { apiKey, restUrl } from "../../api/request.js";
 import CommentsSection from "../comment-list/CommentList.jsx";
 
 
@@ -9,7 +9,7 @@ export default function DetailsPageSection({
 }) {
   const [recipe, setRecipe] = useState(null);
   useEffect(() => {
-    fetch(baseUrl + `recipes?=eq.${id}`, {
+    fetch(restUrl + `recipes?=eq.${id}`, {
         method: 'GET',
          headers: {
         'apikey': apiKey,}

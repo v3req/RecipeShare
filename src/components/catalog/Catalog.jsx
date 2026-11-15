@@ -1,9 +1,16 @@
+import { useEffect, useState } from "react";
+import { getAll } from "../../api/recipe-Api";
 import RecipeCard from "../recipe-card/RecipeCard";
 
-export default function Catalog({ 
-  recipes,
-  onClickRecipeCard
- }) {
+export default function Catalog() {
+    const [recipes, setRecipes] = useState([]);
+
+    useEffect(() => {
+        getAll()
+        .then(data => setRecipes(data))
+        .catch(error => console.error('Error fetching recipes:', error));
+    }, []);
+
   return ( 
     <section id="explore" >
     <div className="container">
@@ -13,7 +20,7 @@ export default function Catalog({
       </div>
       <div className="recipe-grid">
         
-        {recipes.map(recipe => <RecipeCard key = {recipe.id} {...recipe} onClickRecipeCard = {onClickRecipeCard}/>)}  
+        {recipes.map(recipe => <RecipeCard key = {recipe.id} {...recipe}/>)}  
           
       </div>
     </div>

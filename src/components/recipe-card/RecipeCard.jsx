@@ -1,3 +1,5 @@
+import { Link, useNavigate } from "react-router";
+
 export default function RecipeCard({
   id,
   title,
@@ -5,9 +7,11 @@ export default function RecipeCard({
   imageUrl,
   difficulty,
   time,
-  onClickRecipeCard}){
+  }){
+    const navigate = useNavigate();
+
     return (
-        <article className="recipe-card" onClick={() => onClickRecipeCard(id)}>
+        <article className="recipe-card" onClick={navigate(`/recipes/${id}`)}>
           <div className="recipe-image">
             <img
               src={imageUrl}
@@ -21,9 +25,9 @@ export default function RecipeCard({
               <span>{time}</span>
               <strong>{difficulty}</strong>
             </div>
-            <a href="#recipe-details" className="view-recipe">
+            <Link to={`/recipes/${id}`} className="view-recipe">
               View Recipe →
-            </a>
+            </Link>
           </div>
         </article>
     )
