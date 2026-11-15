@@ -1,6 +1,7 @@
 import { createContext } from "react";
 import { login, logout, register } from "../api/auth-api";
 import usePersistedState from "../hooks/usePersistedState";
+import { useNavigate } from "react-router";
 
 export const AuthContext = createContext({
     accessToken: '',
@@ -14,7 +15,7 @@ export const AuthContext = createContext({
 
 export function AuthProvider({children,}) {
 
-
+    const navigate = useNavigate();
     const [auth, setAuth] = usePersistedState('auth', null)
 
     
@@ -35,6 +36,7 @@ export function AuthProvider({children,}) {
     const logoutHandler = async () => {
         await logout(auth?.access_token);
         setAuth(null);
+        navigate('/')
     }
 
 

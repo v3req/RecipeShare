@@ -9,6 +9,7 @@ async function baseRequest (url, path='/', method='GET', data=null, opts={}) {
             ...opts.headers,
             apikey: apiKey,
             Prefer: "return=representation",
+            ...getAuthHeader()
         },
     }
 
@@ -27,6 +28,10 @@ async function baseRequest (url, path='/', method='GET', data=null, opts={}) {
         throw new Error(`HTTP error! status: ${response.status}`);
     }
 
+    if (response.status === 204) {
+        return null; // No content to return
+    }
+
     return response.json();
 
 }
@@ -38,3 +43,12 @@ export default async function request(path = "/", method = "GET", data = null, o
 export const authRequest = async (path = "/", method = "GET", data = null, opts = {}) => {
     return baseRequest(authUrl, path, method, data, opts);
 };
+
+function getAuthHeader() {
+    const auth = localStorage.getItem("auth");
+    const accessToken = auth ? JSON.parse(auth).access_token : null;
+
+    return {
+        ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {})
+    };
+}
