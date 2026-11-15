@@ -21,6 +21,9 @@ export default function Header(
         <Link to="/register" className="btn btn-primary">
           Sign Up
         </Link>
+        <Link to="/logout" className="btn btn-primary">
+          Logout
+        </Link>
       </div>
     </div>
   </header>)

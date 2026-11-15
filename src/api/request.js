@@ -17,6 +17,7 @@ async function baseRequest (url, path='/', method='GET', data=null, opts={}) {
     };
 
     if(data){
+        options.headers['Content-Type'] = 'application/json';
         options.body = JSON.stringify(data);
     };
 

@@ -8,6 +8,7 @@ import CreateRecipeSection from './components/create-recipe/CreateRecipe.jsx'
 import EditRecipeSection from './components/edit-recipe/EditRecipe.jsx'
 import DetailsPageSection from './components/details/details.jsx'
 import FooterSection from './components/footer/Footer.jsx'
+import Logout from './components/logout/Logout.jsx'
 import { Route, Routes } from "react-router"
 
 
@@ -28,7 +29,7 @@ function App() {
                 <Route path="/recipes/:recipeId/edit" element={<EditRecipeSection />} />
                 <Route path="/register" element={<SignupSection />} />
                 <Route path="/login" element={<LoginSection />} />
-                <Route path="/logout"  />
+                <Route path="/logout" element={<Logout/>}/>
             </Routes>
 
             <FooterSection />
