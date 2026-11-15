@@ -1,9 +1,10 @@
 import { Link } from "react-router";
 import useForm from "../../hooks/useForm.jsx";
-import { register } from "../../api/auth-api";
+
+import useAuth from "../../hooks/useAuth.js";
 
 export default function SignupSection() {
-     
+     const { registerHandler } = useAuth()
 
     const {values, changeHandler, submitHandler} = useForm({email: '', password: '', confirm_password: ''}, registerHandler);
     

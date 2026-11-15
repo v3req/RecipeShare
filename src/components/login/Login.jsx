@@ -1,13 +1,10 @@
 import { Link } from "react-router";
-import { login } from "../../api/auth-api";
+
 import useForm from "../../hooks/useForm";
+import useAuth from "../../hooks/useAuth";
 
 export default function LoginSection() {
-    const loginHandler = async (values) => {
-        login(values)
-        .then(res => console.log(res))
-        .catch(err => console.log(err.message))
-    }
+    const { loginHandler } = useAuth();
     
     const {values, changeHandler, submitHandler} = useForm({email: '', password: '', confirm_password: ''}, loginHandler);
   return (

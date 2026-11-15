@@ -2,7 +2,7 @@ import { createContext } from "react";
 import { login, logout, register } from "../api/auth-api";
 import usePersistedState from "../hooks/usePersistedState";
 
-const AuthContext = createContext({
+export const AuthContext = createContext({
     accessToken: '',
     user: {},
     isAuthenticated: false,
