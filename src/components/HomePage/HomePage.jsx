@@ -1,6 +1,7 @@
-export default function HeroSection() {
-    return(
-        <div className="hero">
+export default function HomePage() {
+  return (
+    <section id="home" className="page">
+      <div className="hero">
       <div className="container hero-content">
         <div>
           <span className="eyebrow">Welcome to RecipeShare</span>
@@ -29,5 +30,32 @@ export default function HeroSection() {
         </div>
       </div>
     </div>
-    )}
+
+     <div className="benefits">
+      <div className="container benefit-list">
+        <div className="benefit">
+          <span>✓</span> Easy-to-follow recipes
+        </div>
+        <div className="benefit">
+          <span>♡</span> Shared by food lovers
+        </div>
+        <div className="benefit">
+          <span>✦</span> New cooking inspiration
+        </div>
+      </div>
+    </div>
     
+    <div className="container">
+      <div className="cta">
+        <h2>Have a recipe to share?</h2>
+        <p>
+          Join the community and inspire someone to cook something wonderful.
+        </p>
+        <a href="#signup" className="btn btn-primary">
+          Get Started →
+        </a>
+      </div>
+    </div>
+    </section>
+    );
+}

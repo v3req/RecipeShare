@@ -1,75 +1,86 @@
-export default function EditRecipeSection({title, description, imageUrl, category, difficulty, time, servings, ingridients, instructions}) {
+export default function CreateRecipeSection() {
   return (
-    <section id="edit-recipe" className="page hidden">
+    <section id="create-recipe" >
     <div className="container">
       <div className="page-header">
-        <h1>Edit Recipe</h1>
-        <p>Update your recipe details below.</p>
+        <h1>Create a Recipe</h1>
+        <p>Share something delicious with the community.</p>
       </div>
       <div className="editor-layout">
         <div className="editor-card">
           <form action="#" method="post">
             <div className="form-group">
-              <label htmlFor="edit-title">Recipe Title</label>
+              <label htmlFor="new-title">Recipe Title</label>
               <input
                 className="form-control"
-                id="edit-title"
+                id="new-title"
                 name="title"
                 type="text"
-                defaultValue={title}
+                placeholder="e.g. Creamy Mushroom Pasta"
                 required=""
               />
             </div>
             <div className="form-group">
-              <label htmlFor="edit-description">Description</label>
+              <label htmlFor="new-description">Description</label>
               <textarea
                 className="form-control"
-                id="edit-description"
+                id="new-description"
                 name="description"
+                placeholder="Describe your recipe..."
                 required=""
-                defaultValue={
-                  {description}
-                }
+                defaultValue={""}
               />
             </div>
             <div className="form-group">
-              <label htmlFor="edit-image">Recipe Image URL</label>
+              <label htmlFor="new-image">Recipe Image URL</label>
               <input
                 className="form-control"
-                id="edit-image"
+                id="new-image"
                 name="image"
                 type="url"
-                placeholder="Enter an image URL"
-                defaultValue={imageUrl}
+                placeholder="https://example.com/image.jpg"
               />
+            </div>
+            <div className="form-group">
+              <label htmlFor="new-upload">Or Choose an Image</label>
+              <div className="upload-box">
+                <p>Choose a food photo from your device.</p>
+                <input
+                  id="new-upload"
+                  name="image_file"
+                  type="file"
+                  accept="image/*"
+                />
+              </div>
             </div>
             <div className="form-row">
               <div className="form-group">
-                <label htmlFor="edit-category">Category</label>
+                <label htmlFor="new-category">Category</label>
                 <select
                   className="form-control"
-                  id="edit-category"
+                  id="new-category"
                   name="category"
-                  defaultValue={category}
+                  required=""
                 >
-                    
-                  <option>Italian</option>
+                  <option value="">Select category</option>
                   <option>Breakfast</option>
                   <option>Lunch</option>
                   <option>Dinner</option>
                   <option>Dessert</option>
                   <option>Healthy</option>
+                  <option>Italian</option>
                   <option>Other</option>
                 </select>
               </div>
               <div className="form-group">
-                <label htmlFor="edit-difficulty">Difficulty</label>
+                <label htmlFor="new-difficulty">Difficulty</label>
                 <select
                   className="form-control"
-                  id="edit-difficulty"
+                  id="new-difficulty"
                   name="difficulty"
-                  defaultValue={difficulty}
+                  required=""
                 >
+                  <option value="">Select difficulty</option>
                   <option>Easy</option>
                   <option>Medium</option>
                   <option>Hard</option>
@@ -78,55 +89,55 @@ export default function EditRecipeSection({title, description, imageUrl, categor
             </div>
             <div className="form-row">
               <div className="form-group">
-                <label htmlFor="edit-time">Preparation Time (minutes)</label>
+                <label htmlFor="new-time">Preparation Time (minutes)</label>
                 <input
                   className="form-control"
-                  id="edit-time"
+                  id="new-time"
                   name="time"
                   type="number"
                   min={1}
-                  defaultValue={time}
-
+                  placeholder={30}
+                  required=""
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="edit-servings">Servings</label>
+                <label htmlFor="new-servings">Servings</label>
                 <input
                   className="form-control"
-                  id="edit-servings"
+                  id="new-servings"
                   name="servings"
                   type="number"
                   min={1}
-                  defaultValue={servings}
+                  placeholder={4}
                 />
               </div>
             </div>
             <div className="form-group">
-              <label htmlFor="edit-ingredients">Ingredients</label>
+              <label htmlFor="new-ingredients">Ingredients</label>
               <textarea
                 className="form-control"
-                id="edit-ingredients"
+                id="new-ingredients"
                 name="ingredients"
+                placeholder="Enter each ingredient on a new line..."
                 required=""
-                defaultValue={ingridients}
-                
+                defaultValue={""}
               />
             </div>
             <div className="form-group">
-              <label htmlFor="edit-instructions">Instructions</label>
+              <label htmlFor="new-instructions">Instructions</label>
               <textarea
                 className="form-control"
-                id="edit-instructions"
+                id="new-instructions"
                 name="instructions"
                 style={{ minHeight: 180 }}
+                placeholder="Describe the steps to prepare your recipe..."
                 required=""
-                defaultValue={instructions}
-                
+                defaultValue={""}
               />
             </div>
             <div className="form-actions">
               <button className="btn btn-primary" type="submit">
-                Save Changes
+                Publish Recipe
               </button>
               <a href="#dashboard" className="btn btn-outline">
                 Cancel
@@ -137,5 +148,5 @@ export default function EditRecipeSection({title, description, imageUrl, categor
       </div>
     </div>
   </section>
-            );
-        }
+  );
+}

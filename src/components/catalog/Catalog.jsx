@@ -1,6 +1,6 @@
-import RecipeCard from "./RecipeCard";
+import RecipeCard from "../recipe-card/RecipeCard";
 
-export default function AllRecipesSection({ 
+export default function Catalog({ 
   recipes,
   onClickRecipeCard
  }) {

@@ -1,14 +1,16 @@
 import { useState, useEffect } from 'react'
-import Header from './components/HomePage/Header.jsx'
-import HomePage from './components/HomePage/HoemPage.jsx'
-import LoginSection from './components/LoginSection.jsx'
-import SignupSection from './components/SignupSection.jsx'
-import AllRecipesSection from './components/AllRecipesSection.jsx'
-import CreateRecipeSection from './components/CreateRecipeSection.jsx'
-import EditRecipeSection from './components/EditRecipeSection.jsx'
-import DetailsPageSection from './components/DetailsPage.jsx/DetailsPageSection.jsx'
-import FooterSection from './components/FooterSection.jsx'
+import Header from './components/header/Header.jsx'
+import HomePage from './components/HomePage/HomePage.jsx'
+import LoginSection from './components/login/Login.jsx'
+import SignupSection from './components/register/Register.jsx'
+import Catalog from './components/catalog/Catalog.jsx'
+import CreateRecipeSection from './components/create-recipe/CreateRecipe.jsx'
+import EditRecipeSection from './components/edit-recipe/EditRecipe.jsx'
+import DetailsPageSection from './components/details/details.jsx'
+import FooterSection from './components/footer/Footer.jsx'
 import { apiKey, baseUrl } from './api/baseurl.js'
+import { Route, Routes } from "react-router"
+
 
 
 function App() {
@@ -28,11 +30,7 @@ function App() {
    const [selectedRecipe, setSelectedRecipe] = useState(null)
 
    const [showAllRecipesModal, setShowAllRecipesModal] = useState(false)
-   const clickShowAllRecipesHandler = (e) => {
-      e.preventDefault()
-      setShowAllRecipesModal(true)
-    
-   }
+   
  
    const [showDetails, setShowDetails] = useState(false)
    const clickRecipeCardHandler = (recipeId) => {
@@ -51,40 +49,21 @@ function App() {
 
   return (
    <>
-  {/* ===== SHARED NAVIGATION ===== */}
-  <Header onAllRecipes = {clickShowAllRecipesHandler}/>  
-  {/* ==================================================
-     1. HOME PAGE
-     ================================================== */}
-  <HomePage />
-  {/* ==================================================
-     2. LOGIN PAGE
-     ================================================== */}
-  <LoginSection />
-  {/* ==================================================
-     3. SIGN UP PAGE
-     ================================================== */}
-  <SignupSection />
-  {/* ==================================================
-     4. EXPLORE ALL RECIPES
-     ================================================== */}
-  {showAllRecipesModal && <AllRecipesSection recipes={recipes} onClickRecipeCard = {clickRecipeCardHandler}/>}
-  
-  {/* ==================================================
-     6. CREATE RECIPE PAGE
-     ================================================== */}
-  <CreateRecipeSection />
-  {/* ==================================================
-     7. EDIT RECIPE PAGE
-     ================================================== */}
-  <EditRecipeSection />
-  {/* ==================================================
-     8. RECIPE DETAILS & COMMENTS
-     ================================================== */}
-  {showDetails  && <DetailsPageSection recipeId = {selectedRecipe} onClose = {hideModalHandler}/>}
-  
-  {/* ===== FOOTER ===== */}
-  <FooterSection />
+
+    <Header />
+
+            <Routes>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/catalog" element={<Catalog recipes={recipes} onClickRecipeCard = {clickRecipeCardHandler}/>} />
+                <Route path="/games/create" element={<CreateRecipeSection />} />
+                <Route path="/games/:gameId" element={<DetailsPageSection recipeId = {selectedRecipe} onClose = {hideModalHandler}/>} />
+                <Route path="/games/:gameId/edit" element={<EditRecipeSection />} />
+                <Route path="/register" element={<SignupSection />} />
+                <Route path="/login" element={<LoginSection />} />
+                <Route path="/logout"  />
+            </Routes>
+
+            <FooterSection />
 
   
 </>

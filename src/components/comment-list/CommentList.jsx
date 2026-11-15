@@ -1,4 +1,4 @@
-import Comment from "./Comment.jsx";
+import Comment from "../comment/Comment.jsx";
 import { useState, useEffect } from "react";
 import { apiKey, baseUrl } from "../../api/baseurl.js";
 

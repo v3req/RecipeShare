@@ -1,9 +1,28 @@
-export default function DetailsSection({title, description, imageUrl, category, difficulty, time, ingridients, instructions, author, onClose}) {
+import { useEffect, useState } from "react";
+import { apiKey, baseUrl } from "../../api/baseurl";
+import CommentsSection from "../comment-list/CommentList.jsx";
+
+
+export default function DetailsPageSection({
+  id,
+  onClose
+}) {
+  const [recipe, setRecipe] = useState(null);
+  useEffect(() => {
+    fetch(baseUrl + `recipes?=eq.${id}`, {
+        method: 'GET',
+         headers: {
+        'apikey': apiKey,}
+    })
+      .then(response => response.json())
+      .then(data => setRecipe(data[0]))
+      .catch(error => console.error('Error fetching recipes:', error));
+  },[id]);
   
- 
 
   return (
-    <>
+    <section id="recipe-details" >
+    <div className="container">
 
     <div className="page-header">
         <a
@@ -18,7 +37,7 @@ export default function DetailsSection({title, description, imageUrl, category, 
       <div className="details-layout">
         <div className="details-image">
           <img
-            src={imageUrl}
+            src={recipe.imageUrl}
             
           />
         </div>
@@ -27,19 +46,19 @@ export default function DetailsSection({title, description, imageUrl, category, 
             className="recipe-tag"
             style={{ position: "static", display: "inline-block" }}
           >
-            {category}
+            {recipe.category}
           </span>
           <h1>{title}</h1>
           <p className="details-description">
-            {description}
+            {recipe.description}
           </p>
           <div className="details-meta">
-            <span className="meta-pill">{time}</span>
-            <span className="meta-pill">{difficulty}</span>
+            <span className="meta-pill">{recipe.time}</span>
+            <span className="meta-pill">{recipe.difficulty}</span>
           </div>
           <p className="muted small-text">
             Recipe shared by{" "}
-            <strong style={{ color: "var(--dark)" }}>{author}</strong>
+            <strong style={{ color: "var(--dark)" }}>{recipe.author}</strong>
           </p>
           <div className="form-actions">
             <a href="#edit-recipe" className="btn btn-primary">
@@ -55,16 +74,20 @@ export default function DetailsSection({title, description, imageUrl, category, 
         <div className="details-block">
           <h2>Ingredients</h2>
           <ul className="ingredient-list">
-            {ingridients}
+            {recipe.ingridients}
           </ul>
         </div>
         <div className="details-block">
           <h2>Instructions</h2>
           <div className="instructions">
-            {instructions}
+            {recipe.instructions}
           </div>
         </div>
       </div>
-      </>
-      )
-      }
+  
+    
+           <CommentsSection recipeId = {id}/>
+    </div>
+  </section>
+  );
+}
