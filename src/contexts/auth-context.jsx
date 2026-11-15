@@ -17,6 +17,8 @@ export function AuthProvider({children,}) {
 
     const [auth, setAuth] = usePersistedState('auth', null)
 
+    
+
     const  registerHandler = async (values) =>{
        const result = await register(values);
         
@@ -27,9 +29,10 @@ export function AuthProvider({children,}) {
        const result = await login(values);
         
        setAuth(result);
+       
     } 
 
-    const logutHandler = async () => {
+    const logoutHandler = async () => {
         await logout(auth?.access_token);
         setAuth(null);
     }
@@ -41,7 +44,7 @@ export function AuthProvider({children,}) {
         isAuthenticated: !!auth,
         registerHandler,
         loginHandler,
-        logutHandler
+        logoutHandler
     }
 
     return (
