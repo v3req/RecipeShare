@@ -98,7 +98,7 @@ export default function DetailsPageSection() {
       </div>
   
     
-           <CommentsSection recipeId = {recipeId} isOwner={isOwner} isAuthenticated/>
+           <CommentsSection recipeId = {recipeId} isOwner={isOwner} isAuthenticated={isAuthenticated}/>
     </div>
   </section>
   );

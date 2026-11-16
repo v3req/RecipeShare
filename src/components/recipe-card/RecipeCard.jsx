@@ -22,7 +22,7 @@ export default function RecipeCard({
             <h3>{title}</h3>
             <p>{description}</p>
             <div className="recipe-meta">
-              <span>{time}</span>
+              <span>{time} min</span>
               <strong>{difficulty}</strong>
             </div>
             <Link to={`/recipes/${id}`} className="view-recipe">

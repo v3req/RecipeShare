@@ -49,7 +49,7 @@ export default function LoginSection() {
         </form>
         <p className="auth-switch">
           Don't have an account?
-          <a href="#signup">Sign Up</a>
+          <Link to="/register">Sign Up</Link>
         </p>
       </div>
     </div>
