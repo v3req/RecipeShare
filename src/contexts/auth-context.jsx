@@ -1,4 +1,4 @@
-import { createContext } from "react";
+import { createContext, useEffect } from "react";
 import { login, logout, register } from "../api/auth-api";
 import usePersistedState from "../hooks/usePersistedState";
 import { useNavigate } from "react-router";
@@ -34,11 +34,29 @@ export function AuthProvider({children,}) {
     } 
 
     const logoutHandler = async () => {
-        await logout(auth?.access_token);
         setAuth(null);
+        await logout(auth?.access_token);
+        
         navigate('/')
     }
 
+
+    useEffect(() => {
+    if (!auth?.expires_at) return;
+
+    const remainingTime = auth.expires_at * 1000 - Date.now();
+
+    if (remainingTime <= 0) {
+        setAuth(null);
+        return;
+    }
+
+    const timer = setTimeout(() => {
+        setAuth(null);
+    }, remainingTime);
+
+    return () => clearTimeout(timer);
+        }, [auth, setAuth]);
 
     const contextValue = {
         accessToken: auth?.access_token,

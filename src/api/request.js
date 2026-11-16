@@ -29,7 +29,7 @@ async function baseRequest (url, path='/', method='GET', data=null, opts={}) {
     }
 
     if (response.status === 204) {
-        return null; // No content to return
+        return null; 
     }
 
     return response.json();
