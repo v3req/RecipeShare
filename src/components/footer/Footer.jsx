@@ -1,3 +1,5 @@
+import { Link } from "react-router";
+
 export default function FooterSection() {
   return (
     <footer>
@@ -7,9 +9,8 @@ export default function FooterSection() {
       </a>
       <p>© 2026 RecipeShare. Made for people who love food.</p>
       <div className="footer-links">
-        <a href="#home">Home</a>
-        <a href="#explore">Recipes</a>
-        <a href="#signup">Sign Up</a>
+        <Link to="/">Home</Link>
+        <Link to="/catalog">Recipes</Link>
       </div>
     </div>
   </footer>

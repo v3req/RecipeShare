@@ -1,4 +1,9 @@
+import { Link } from "react-router";
+import useAuth from "../../hooks/useAuth";
+
 export default function HomePage() {
+  const { isAuthenticated } = useAuth()
+
   return (
     <section id="home" className="page">
       <div className="hero">
@@ -14,12 +19,9 @@ export default function HomePage() {
             inspiration for your next homemade meal.
           </p>
           <div className="hero-actions">
-            <a href="#explore" className="btn btn-primary">
+            <Link to="/catalog" className="btn btn-primary">
               Explore Recipes →
-            </a>
-            <a href="#signup" className="btn btn-outline">
-              Create an Account
-            </a>
+            </Link>
           </div>
         </div>
         <div className="hero-image">
@@ -45,17 +47,17 @@ export default function HomePage() {
       </div>
     </div>
     
-    <div className="container">
+    {!isAuthenticated && <div className="container">
       <div className="cta">
         <h2>Have a recipe to share?</h2>
         <p>
           Join the community and inspire someone to cook something wonderful.
         </p>
-        <a href="#signup" className="btn btn-primary">
+        <Link to="/register" className="btn btn-primary">
           Get Started →
-        </a>
+        </Link>
       </div>
-    </div>
+    </div>}
     </section>
     );
 }

@@ -24,6 +24,22 @@
   --white: #ffffff;
 }
 
+ html,
+  body,
+  #root {
+  min-height: 100%;
+  }
+
+  body {
+  min-height: 100vh;
+  } 
+
+  #root {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  }
+
 body {
   font-family: Arial, Helvetica, sans-serif;
   background: var(--background);
@@ -60,6 +76,7 @@ img {
 }
 
 .page {
+  flex: 1;
   min-height: 65vh;
 }
 
@@ -623,6 +640,7 @@ footer {
   background: white;
   border-top: 1px solid var(--border);
   padding: 28px 0;
+  margin-top: auto;
 }
 
 .footer-content {
@@ -730,6 +748,8 @@ footer {
     flex-direction: column;
     text-align: center;
   }
+
+ 
 }
 </style>
 </head>
