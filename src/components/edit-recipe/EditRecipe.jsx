@@ -1,11 +1,11 @@
-import { Link, useParams } from "react-router";
+import { Link, useNavigate, useParams } from "react-router";
 import { getOne, update } from "../../api/recipe-Api";
 import useForm from "../../hooks/useForm";
 import { useEffect, useState } from "react";
 
 export default function EditRecipeSection() {
   const { recipeId } = useParams()
-  
+  const navigate = useNavigate()
 
 
   useEffect(() => {
@@ -14,8 +14,19 @@ export default function EditRecipeSection() {
     .catch(err => console.log(err))
   },[recipeId]);
 
-  const editHandler = (values) => {
-    update(recipeId, values)
+  const editHandler = async (values) => {
+    const {title, description, imageUrl, category, difficulty, time, ingredients, instructions} = values
+    if(!title || !description || !imageUrl || !category || !difficulty || !time || !ingredients || !instructions){
+      alert('All fields are required!')
+      return;
+    }
+
+    try {
+      await update(recipeId, values);
+      navigate('/catalog')
+    } catch (error){
+       alert(error.message);
+    }
   }
 
   const { values, changeHandler, submitHandler, setValues } = useForm({title: '', description: '', imageUrl: '', category: '', difficulty: '', time: '', ingredients: '', instructions: ''}, editHandler);

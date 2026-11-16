@@ -5,12 +5,18 @@ import useAuth from "../../hooks/useAuth";
 
 export default function CreateRecipeSection() {
     const { user } = useAuth();
-
+    const navigate = useNavigate()
    const author = user?.email
 
     const createHandler = async (values) => {
+      const {title, description, imageUrl, category, difficulty, time, ingredients, instructions} = values
+      if(!title || !description || !imageUrl || !category || !difficulty || !time || !ingredients || !instructions){
+        alert('All fields are required!')
+        return;
+      }
         try {
             await create({...values, author});
+          navigate('/catalog')
         } catch (error) {
             alert(error.message);
         }

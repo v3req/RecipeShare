@@ -21,16 +21,37 @@ export function AuthProvider({children,}) {
     
 
     const  registerHandler = async (values) =>{
+        const {email, password, confirm_password} = values
+
        const result = await register(values);
-        
+        if(!email || !password || !confirm_password){
+            alert('All fields are required!');
+            return;
+        }
+
+        if(password !== confirm_password){
+            alert("Passwords don't match!");
+            return;
+        }
        setAuth(result);
+       navigate('/') 
     } 
 
      const  loginHandler = async (values) =>{
+       const { email, password } = values;
+        if(!email || !password){
+            alert('All fields are required!')
+            return;
+        }
+
        const result = await login(values);
-        
+       if(result === 400){
+        alert('Wrong credentials!')
+        return;
+       }
+
        setAuth(result);
-       
+       navigate('/') 
     } 
 
     const logoutHandler = async () => {

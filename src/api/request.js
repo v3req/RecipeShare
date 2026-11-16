@@ -25,7 +25,7 @@ async function baseRequest (url, path='/', method='GET', data=null, opts={}) {
     const response = await fetch(url + path, options);
 
     if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
+        return response.status;
     }
 
     if (response.status === 204) {
