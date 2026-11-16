@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
-import request, { apiKey, restUrl } from "../../api/request.js";
 import CommentsSection from "../comment-list/CommentList.jsx";
-import { Link, useParams } from "react-router";
-import { getOne } from "../../api/recipe-Api.js";
+import { Link, useNavigate, useParams } from "react-router";
+import { del, getOne } from "../../api/recipe-Api.js";
 
 
 export default function DetailsPageSection() {
   const [recipe, setRecipe] = useState({});
   const{ recipeId }= useParams(); 
+  const navigate = useNavigate();
 
   useEffect(() => {
     getOne(recipeId)
@@ -15,7 +15,16 @@ export default function DetailsPageSection() {
     .catch(err => console.log(err))
   },[recipeId]);
 
-  getOne(recipeId)
+ const clickDeleteHandler = async () => {
+    try{
+      await del(recipeId);
+      navigate('/catalog')
+    } catch (err){
+      console.log(err.message)
+    }
+ }
+
+
   
 
   return (
@@ -62,6 +71,12 @@ export default function DetailsPageSection() {
             <Link to={`/recipes/${recipeId}/edit`} className="btn btn-primary">
               Edit Recipe
             </Link>
+            
+          </div>
+          <div className="form-actions">
+            <a href='#' className="btn btn-primary" onClick={clickDeleteHandler}>
+              Delete Recipe
+            </a>
             
           </div>
         </div>
