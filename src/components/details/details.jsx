@@ -2,12 +2,14 @@ import { useEffect, useState } from "react";
 import CommentsSection from "../comment-list/CommentList.jsx";
 import { Link, useNavigate, useParams } from "react-router";
 import { del, getOne } from "../../api/recipe-Api.js";
+import useAuth from "../../hooks/useAuth.js";
 
 
 export default function DetailsPageSection() {
   const [recipe, setRecipe] = useState({});
   const{ recipeId }= useParams(); 
   const navigate = useNavigate();
+  const { user, isAuthenticated } = useAuth()
 
   useEffect(() => {
     getOne(recipeId)
@@ -22,11 +24,9 @@ export default function DetailsPageSection() {
     } catch (err){
       console.log(err.message)
     }
- }
+ } 
 
-
-  
-
+ const isOwner = user && user?.id === recipe?.user_id;
   return (
     <section id="recipe-details" >
     <div className="container">
@@ -67,7 +67,7 @@ export default function DetailsPageSection() {
             Recipe shared by{" "}
             <strong style={{ color: "var(--dark)" }}>{recipe.author}</strong>
           </p>
-          <div className="form-actions">
+         {isOwner && <><div className="form-actions">
             <Link to={`/recipes/${recipeId}/edit`} className="btn btn-primary">
               Edit Recipe
             </Link>
@@ -79,6 +79,7 @@ export default function DetailsPageSection() {
             </a>
             
           </div>
+          </>}
         </div>
       </div>
       <div className="details-layout" style={{ marginTop: 15 }}>
@@ -97,7 +98,7 @@ export default function DetailsPageSection() {
       </div>
   
     
-           <CommentsSection recipeId = {recipeId}/>
+           <CommentsSection recipeId = {recipeId} isOwner={isOwner} isAuthenticated/>
     </div>
   </section>
   );

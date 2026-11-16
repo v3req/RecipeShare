@@ -7,6 +7,8 @@ import { useState, useEffect } from "react";
 
 export default function CommentsSection({
   recipeId,
+  isOwner,
+  isAuthenticated
 }) {
   const [refreshComments, setRefreshComments] = useState(false);
   const [comments, setComments] = useState([]);
@@ -26,7 +28,7 @@ export default function CommentsSection({
         {comments.map((comment) => (
           <Comment key={comment.id} {...comment} />
         ))}
-        <CreateComment onCreate = {() => setRefreshComments(state => !state)}/>
+        {!isOwner && isAuthenticated && <CreateComment onCreate = {() => setRefreshComments(state => !state)}/>}
     </div>
   );
 }

@@ -7,7 +7,7 @@ export default function CreateComment({onCreate}){
   const { recipeId } = useParams();
   const { user } = useAuth();
     
-  const {values, changeHandler} = useForm({text: ''},)
+  const {values, changeHandler, setValues} = useForm({text: ''},)
 
   const addCommentAction = async (formData) => {
         const newComment = {
@@ -19,6 +19,7 @@ export default function CreateComment({onCreate}){
         try {
             const result = await postComment(newComment);
             onCreate(); 
+            setValues({text:''})
         } catch (err) {
             alert(err.message);
         }
