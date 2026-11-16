@@ -20,7 +20,7 @@ export default function useForm(initialValues, onSubmit){
 
         setValues(initialValues)
 
-       navigate('/')
+       navigate('/catalog')
     }
-    return {values, changeHandler, submitHandler}
+    return {values, changeHandler, submitHandler, setValues}
 }

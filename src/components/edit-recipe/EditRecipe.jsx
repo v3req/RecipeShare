@@ -1,4 +1,25 @@
-export default function EditRecipeSection({title, description, imageUrl, category, difficulty, time, servings, ingridients, instructions}) {
+import { Link, useParams } from "react-router";
+import { getOne, update } from "../../api/recipe-Api";
+import useForm from "../../hooks/useForm";
+import { useEffect, useState } from "react";
+
+export default function EditRecipeSection() {
+  const { recipeId } = useParams()
+  
+
+
+  useEffect(() => {
+    getOne(recipeId)
+    .then(data => setValues(data[0]))
+    .catch(err => console.log(err))
+  },[recipeId]);
+
+  const editHandler = (values) => {
+    update(recipeId, values)
+  }
+
+  const { values, changeHandler, submitHandler, setValues } = useForm({title: '', description: '', imageUrl: '', category: '', difficulty: '', time: '', ingredients: '', instructions: ''}, editHandler);
+
   return (
     <section id="edit-recipe" >
     <div className="container">
@@ -8,7 +29,7 @@ export default function EditRecipeSection({title, description, imageUrl, categor
       </div>
       <div className="editor-layout">
         <div className="editor-card">
-          <form action="#" method="post">
+          <form onSubmit={submitHandler}>
             <div className="form-group">
               <label htmlFor="edit-title">Recipe Title</label>
               <input
@@ -16,8 +37,9 @@ export default function EditRecipeSection({title, description, imageUrl, categor
                 id="edit-title"
                 name="title"
                 type="text"
-                defaultValue={title}
+                value={values.title}
                 required=""
+                onChange={changeHandler}
               />
             </div>
             <div className="form-group">
@@ -27,9 +49,8 @@ export default function EditRecipeSection({title, description, imageUrl, categor
                 id="edit-description"
                 name="description"
                 required=""
-                defaultValue={
-                  {description}
-                }
+                value={values.description}
+                onChange={changeHandler}
               />
             </div>
             <div className="form-group">
@@ -40,7 +61,8 @@ export default function EditRecipeSection({title, description, imageUrl, categor
                 name="image"
                 type="url"
                 placeholder="Enter an image URL"
-                defaultValue={imageUrl}
+                value={values.imageUrl}
+                onChange={changeHandler}
               />
             </div>
             <div className="form-row">
@@ -50,16 +72,16 @@ export default function EditRecipeSection({title, description, imageUrl, categor
                   className="form-control"
                   id="edit-category"
                   name="category"
-                  defaultValue={category}
+                  value={values.category}
+                  onChange={changeHandler}
                 >
-                    
-                  <option>Italian</option>
-                  <option>Breakfast</option>
-                  <option>Lunch</option>
-                  <option>Dinner</option>
-                  <option>Dessert</option>
-                  <option>Healthy</option>
-                  <option>Other</option>
+                  <option value='breakfast'>Breakfast</option>
+                  <option value='lunch'>Lunch</option>
+                  <option value='dinner'>Dinner</option>
+                  <option value='dessert'>Dessert</option>
+                  <option value='healthy'>Healthy</option>
+                  <option value='italian'>Italian</option>
+                  <option value='other'>Other</option>
                 </select>
               </div>
               <div className="form-group">
@@ -68,11 +90,13 @@ export default function EditRecipeSection({title, description, imageUrl, categor
                   className="form-control"
                   id="edit-difficulty"
                   name="difficulty"
-                  defaultValue={difficulty}
+                  value={values.difficulty}
+                  onChange={changeHandler}
                 >
-                  <option>Easy</option>
-                  <option>Medium</option>
-                  <option>Hard</option>
+                  
+                  <option value='easy'>Easy</option>
+                  <option value='medium'>Medium</option>
+                  <option value='hard'>Hard</option>
                 </select>
               </div>
             </div>
@@ -85,19 +109,8 @@ export default function EditRecipeSection({title, description, imageUrl, categor
                   name="time"
                   type="number"
                   min={1}
-                  defaultValue={time}
-
-                />
-              </div>
-              <div className="form-group">
-                <label htmlFor="edit-servings">Servings</label>
-                <input
-                  className="form-control"
-                  id="edit-servings"
-                  name="servings"
-                  type="number"
-                  min={1}
-                  defaultValue={servings}
+                  value={values.time}
+                  onChange={changeHandler}
                 />
               </div>
             </div>
@@ -108,8 +121,8 @@ export default function EditRecipeSection({title, description, imageUrl, categor
                 id="edit-ingredients"
                 name="ingredients"
                 required=""
-                defaultValue={ingridients}
-                
+                value={values.ingredients}
+                onChange={changeHandler}
               />
             </div>
             <div className="form-group">
@@ -120,17 +133,17 @@ export default function EditRecipeSection({title, description, imageUrl, categor
                 name="instructions"
                 style={{ minHeight: 180 }}
                 required=""
-                defaultValue={instructions}
-                
+                value={values.instructions}
+                onChange={changeHandler}
               />
             </div>
             <div className="form-actions">
               <button className="btn btn-primary" type="submit">
                 Save Changes
               </button>
-              <a href="#dashboard" className="btn btn-outline">
+              <Link to="/catalog" className="btn btn-outline">
                 Cancel
-              </a>
+              </Link>
             </div>
           </form>
         </div>

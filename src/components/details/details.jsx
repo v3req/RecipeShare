@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import request, { apiKey, restUrl } from "../../api/request.js";
 import CommentsSection from "../comment-list/CommentList.jsx";
 import { Link, useParams } from "react-router";
+import { getOne } from "../../api/recipe-Api.js";
 
 
 export default function DetailsPageSection() {
@@ -9,10 +10,12 @@ export default function DetailsPageSection() {
   const{ recipeId }= useParams(); 
 
   useEffect(() => {
-    request(`/recipes?id=eq.${recipeId}`)
+    getOne(recipeId)
     .then(data => setRecipe(data[0]))
-    .catch(error => console.error('Error fetching recipe details:', error));
+    .catch(err => console.log(err))
   },[recipeId]);
+
+  getOne(recipeId)
   
 
   return (
@@ -48,7 +51,7 @@ export default function DetailsPageSection() {
             {recipe.description}
           </p>
           <div className="details-meta">
-            <span className="meta-pill">{recipe.time}</span>
+            <span className="meta-pill">{recipe.time} min</span>
             <span className="meta-pill">{recipe.difficulty}</span>
           </div>
           <p className="muted small-text">
@@ -56,9 +59,9 @@ export default function DetailsPageSection() {
             <strong style={{ color: "var(--dark)" }}>{recipe.author}</strong>
           </p>
           <div className="form-actions">
-            <a href="#edit-recipe" className="btn btn-primary">
+            <Link to={`/recipes/${recipeId}/edit`} className="btn btn-primary">
               Edit Recipe
-            </a>
+            </Link>
             
           </div>
         </div>
@@ -67,7 +70,7 @@ export default function DetailsPageSection() {
         <div className="details-block">
           <h2>Ingredients</h2>
           <ul className="ingredient-list">
-            {recipe.ingridients}
+            {recipe.ingredients}
           </ul>
         </div>
         <div className="details-block">
