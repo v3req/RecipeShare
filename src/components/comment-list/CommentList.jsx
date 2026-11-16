@@ -8,13 +8,13 @@ import { useState, useEffect } from "react";
 export default function CommentsSection({
   recipeId,
 }) {
-  
+  const [refreshComments, setRefreshComments] = useState(false);
   const [comments, setComments] = useState([]);
   useEffect(() => {
     getAllComments(recipeId)
       .then(data => setComments(data))
       .catch(error => console.error('Error fetching comments:', error));
-   }, [recipeId]);
+   }, [recipeId, refreshComments]);
   
 
 
@@ -26,7 +26,7 @@ export default function CommentsSection({
         {comments.map((comment) => (
           <Comment key={comment.id} {...comment} />
         ))}
-        <CreateComment recipeId={recipeId}/>
+        <CreateComment onCreate = {() => setRefreshComments(state => !state)}/>
     </div>
   );
 }

@@ -1,5 +1,5 @@
-export const restUrl = 'https://kxivikepqevqgxaxmtjn.supabase.co/rest/v1/';
-export const authUrl = 'https://kxivikepqevqgxaxmtjn.supabase.co/auth/v1/';
+export const restUrl = 'https://kxivikepqevqgxaxmtjn.supabase.co/rest/v1';
+export const authUrl = 'https://kxivikepqevqgxaxmtjn.supabase.co/auth/v1';
 export const apiKey = 'sb_publishable__tXct0qMN2nj84pwjpATSA_O_B_2WOZ'
 
 

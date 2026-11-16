@@ -3,25 +3,31 @@ import { postComment } from "../../api/comment-api";
 import useAuth from "../../hooks/useAuth";
 import useForm from "../../hooks/useForm"
 
-export default function CreateComment(){
+export default function CreateComment({onCreate}){
   const { recipeId } = useParams();
   const { user } = useAuth();
-  const author = user?.email
+    
+  const {values, changeHandler} = useForm({text: ''},)
 
-  const postCommentHandler = async (values) => {
-    try {
-      await postComment({ ...values, author, recipe_id:recipeId });
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
+  const addCommentAction = async (formData) => {
+        const newComment = {
+            text: formData.get('text'),
+            author: user?.email,
+            recipe_id: recipeId,
+        }
 
-  const {values, changeHandler, submitHandler} = useForm({text: ''}, postCommentHandler)
+        try {
+            const result = await postComment(newComment);
+            onCreate(); 
+        } catch (err) {
+            alert(err.message);
+        }
+    };
 
     return (
         <>
         <div className="comment-form">
-          <form onSubmit={submitHandler}>
+          <form action={addCommentAction}>
             <div className="form-group">
               <label htmlFor="comment-text">Your Comment</label>
               <textarea

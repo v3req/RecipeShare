@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useNavigate } from "react-router";
 
-export default function useForm(initialValues, onSubmit){
+export default function useForm(initialValues, onSubmit) {
     const [values, setValues] = useState(initialValues);
     const navigate = useNavigate();
 
@@ -20,7 +20,7 @@ export default function useForm(initialValues, onSubmit){
 
         setValues(initialValues)
 
-       navigate('/catalog')
+       navigate('/catalog') 
     }
     return {values, changeHandler, submitHandler, setValues}
 }
