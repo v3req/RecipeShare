@@ -18,11 +18,15 @@ export default function DetailsPageSection() {
   },[recipeId]);
 
  const clickDeleteHandler = async () => {
-    try{
+  const confirmed = confirm('Are you sure you want to delete this recipe?')
+
+    if(confirmed){
+      try{
       await del(recipeId);
       navigate('/catalog')
     } catch (err){
       console.log(err.message)
+    }
     }
  } 
 
