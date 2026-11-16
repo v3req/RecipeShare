@@ -26,7 +26,7 @@ export default function CommentsSection({
         {comments.map((comment) => (
           <Comment key={comment.id} {...comment} />
         ))}
-        <CreateComment />
+        <CreateComment recipeId={recipeId}/>
     </div>
   );
 }

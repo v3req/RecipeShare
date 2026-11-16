@@ -5,5 +5,5 @@ export const getAllComments = (recipeId) => {
 };
 
 export const postComment = (data) => {
-    
+    return request('/comments', "POST", data);
 }
