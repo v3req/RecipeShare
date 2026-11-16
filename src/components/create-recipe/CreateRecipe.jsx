@@ -3,11 +3,13 @@ import { create } from "../../api/recipe-Api";
 import useForm from "../../hooks/useForm";
 
 export default function CreateRecipeSection() {
-   
+    const { user } = useAuth();
+
+   const author = user?.email
 
     const createHandler = async (values) => {
         try {
-            await create(values);
+            await create({...values, author});
         } catch (error) {
             alert(error.message);
         }

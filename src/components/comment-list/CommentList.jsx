@@ -20,10 +20,13 @@ export default function CommentsSection({
 
   return (
     <div className="comments-section">
-    <CreateComment />        
+        <h2 className="section-title">Comments</h2>
+        <p className="muted">See what people think about this recipe.</p>
+        
         {comments.map((comment) => (
           <Comment key={comment.id} {...comment} />
         ))}
+        <CreateComment />
     </div>
   );
 }
