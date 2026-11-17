@@ -17,3 +17,11 @@
 - [x] Extract Recipe Card as reusable component
 - [x] Extract DetailsSection Card as reusable component
 - [x] Extract Comment as reusable component
+
+## Deploy with cloudflare
+1. `npm i -D wrangler` (optional)
+2. `npx wrangler login`
+3. `npx wrangler deploy`
+
+
+
