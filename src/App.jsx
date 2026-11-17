@@ -11,6 +11,7 @@ import FooterSection from './components/footer/Footer.jsx'
 import Logout from './components/logout/Logout.jsx'
 import { Route, Routes } from "react-router"
 import { AuthProvider } from './contexts/auth-context.jsx'
+import RouteGuard from './components/routeguard/RouteGuard.jsx'
 
 
 
@@ -26,15 +27,21 @@ function App() {
             <Routes>
                 <Route path="/" element={<HomePage />} />
                 <Route path="/catalog" element={<Catalog />} />
-                <Route path="/recipes/create" element={<CreateRecipeSection />} />
                 <Route path="/recipes/:recipeId" element={<DetailsPageSection />} />
-                <Route path="/recipes/:recipeId/edit" element={<EditRecipeSection />} />
                 <Route path="/register" element={<SignupSection />} />
                 <Route path="/login" element={<LoginSection />} />
-                <Route path="/logout" element={<Logout/>}/>
+
+                <Route element={<RouteGuard/>}>
+                  <Route path="/logout" element={<Logout/>}/>
+                  <Route path="/recipes/:recipeId/edit" element={<EditRecipeSection />} />
+                  <Route path="/recipes/create" element={<CreateRecipeSection />} />
+                </Route>
+                
             </Routes>
 
-            <FooterSection />
+    <FooterSection />
+
+            
 </AuthProvider>
   
 
