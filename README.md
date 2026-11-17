@@ -1,3 +1,4 @@
+
 # 🍽️ RecipeShare
 
 RecipeShare is a web application where users can discover, create and share cooking recipes. Users can browse recipes, view their ingredients and instructions, and read comments from other users. Registered users can publish their own recipes and manage the recipes they have created.
@@ -34,6 +35,8 @@ RecipeShare is a web application where users can discover, create and share cook
 
 Users can browse recipes, view their ingredients and instructions, and read comments from other users. Registered users can publish their own recipes and manage the recipes they have created.
 
+---
+
 # 2. Architecture
 
 RecipeShare follows a component-based React architecture. The application is divided into separate layers responsible for the user interface, application state, routing, and communication with the backend.
@@ -46,7 +49,8 @@ RecipeShare
 ├── Frontend (React)
 │   │
 │   ├── App.jsx
-│   │   └── Application routing
+│   │   └── Application Routing
+│   │       └── RouteGuard
 │   │
 │   ├── Components
 │   │   ├── Header
@@ -59,6 +63,7 @@ RecipeShare
 │   │   ├── EditRecipe
 │   │   ├── Login
 │   │   ├── Register
+│   │   ├── Logout
 │   │   └── Comments
 │   │
 │   ├── Contexts
@@ -80,6 +85,42 @@ RecipeShare
     ├── Recipes
     └── Comments
 ```
+
+### Frontend Layer
+
+The frontend is developed using React. It is responsible for rendering the user interface and handling user interactions.
+
+The application uses reusable components to separate functionality into smaller, maintainable pieces.
+
+React Router handles client-side navigation between pages.
+
+### Routing & Authorization Layer
+
+The application uses a custom `RouteGuard` component to protect routes that require authentication.
+
+The RouteGuard checks the user's authentication status through the custom `useAuth()` hook.
+
+If the user is not authenticated, they are redirected to the Login page. Otherwise, the protected route is rendered using React Router's `Outlet` component.
+
+### State Management Layer
+
+The Context API is used to share authentication information across the application.
+
+Custom hooks are used to manage forms, authentication access, and persisted state.
+
+### API Layer
+
+The API layer contains functions responsible for communicating with Supabase.
+
+It separates backend requests from UI components, making the application easier to maintain.
+
+### Backend Layer
+
+Supabase provides the backend functionality, including authentication and database operations.
+
+The frontend communicates with Supabase through HTTP requests using the Fetch API.
+
+---
 
 # 3. User Access & Permissions
 
@@ -103,20 +144,39 @@ Guests can:
 | `/login` | Login |
 | `/register` | Registration |
 
+Guests cannot access protected routes:
+
+- `/recipes/create`
+- `/recipes/:recipeId/edit`
+- `/logout`
+
+If a guest attempts to access one of these routes, the RouteGuard redirects them to the Login page.
+
 ## Authenticated User
 
 Authenticated users can:
 
 - Access all public pages.
 - Create new recipes.
-- View their recipes.
+- View recipes.
 - Edit their own recipes.
 - Delete their own recipes.
 - Add comments to recipes.
+- Log out.
 
-The Header displays different navigation links depending on the authentication state.
+### Protected Routes
 
-**Note:** The application currently does not implement dedicated protected-route components. Some interface elements are conditionally displayed based on authentication status.
+| Route | Description |
+|---|---|
+| `/recipes/create` | Create a recipe |
+| `/recipes/:recipeId/edit` | Edit a recipe |
+| `/logout` | Log out |
+
+These routes are wrapped inside the `RouteGuard` component.
+
+The application uses the `isAuthenticated` value from AuthContext to determine whether a user can access protected pages.
+
+---
 
 # 4. Authentication & Session Handling
 
@@ -142,26 +202,65 @@ The custom `usePersistedState` hook saves authentication information in localSto
 
 The `AuthProvider` also uses `useEffect` and `setTimeout` to check the authentication expiration time and clear expired authentication data.
 
+---
+
 # 5. Routing Structure
 
 The application uses React Router for client-side navigation.
 
+## Route Guards Logic
+
+The application implements a custom `RouteGuard` component to protect routes that require authentication.
+
+The RouteGuard uses:
+
+- `useAuth()` to access the authentication state.
+- `isAuthenticated` to determine whether a user is logged in.
+- `Navigate` to redirect unauthenticated users.
+- `Outlet` to render the protected child route.
+
+### RouteGuard Implementation
+
+```jsx
+import { Navigate, Outlet } from "react-router";
+import useAuth from "../../hooks/useAuth";
+
+export default function RouteGuard() {
+    const { isAuthenticated } = useAuth();
+
+    if (!isAuthenticated) {
+        return <Navigate to="/login" />;
+    }
+
+    return <Outlet />;
+}
+```
+
+### How It Works
+
+1. A user attempts to access a protected route.
+2. The RouteGuard checks the `isAuthenticated` value using `useAuth()`.
+3. If the user is not authenticated, React Router redirects them to `/login`.
+4. If the user is authenticated, the `Outlet` component renders the requested child route.
+
 ## Main Routes
 
-| Route | Component | Purpose |
+| Route | Component | Access |
 |---|---|---|
-| `/` | HomePage | Home page |
-| `/catalog` | Catalog | Browse recipes |
-| `/recipes/create` | CreateRecipeSection | Create a recipe |
-| `/recipes/:recipeId` | DetailsPageSection | View recipe details |
-| `/recipes/:recipeId/edit` | EditRecipeSection | Edit a recipe |
-| `/register` | SignupSection | Register |
-| `/login` | LoginSection | Log in |
-| `/logout` | Logout | Log out |
+| `/` | HomePage | Public |
+| `/catalog` | Catalog | Public |
+| `/recipes/:recipeId` | DetailsPageSection | Public |
+| `/register` | SignupSection | Public |
+| `/login` | LoginSection | Public |
+| `/logout` | Logout | Protected |
+| `/recipes/:recipeId/edit` | EditRecipeSection | Protected |
+| `/recipes/create` | CreateRecipeSection | Protected |
 
 ## Nested & Parameterized Routes
 
-The application does not currently use nested routes.
+The application uses a parent route with nested child routes for protected pages.
+
+The parent route renders the `RouteGuard` component, while its child routes are rendered through the `Outlet` component.
 
 Parameterized routes are used for recipe details and editing:
 
@@ -170,11 +269,7 @@ Parameterized routes are used for recipe details and editing:
 
 The `useParams()` hook retrieves the recipe ID from the URL.
 
-## Route Guards
-
-There are currently no dedicated protected-route or guest-only route components.
-
-Some navigation elements are conditionally displayed depending on whether the user is authenticated.
+---
 
 # 6. List → Details Flow
 
@@ -212,6 +307,8 @@ The details page displays the recipe image, title, description, category, prepar
 
 The page also displays the comments associated with that recipe.
 
+---
+
 # 7. Data Source & Backend
 
 **Backend Type:** Supabase
@@ -234,6 +331,8 @@ The API functions are organized in the `src/api` directory:
 | `recipe-Api.js` | Recipe operations |
 | `comment-api.js` | Comment operations |
 | `request.js` | Shared HTTP request logic |
+
+---
 
 # 8. Data Operations (CRUD)
 
@@ -293,6 +392,8 @@ If the user confirms, the `del()` API function sends a DELETE request to Supabas
 
 After deletion, the application navigates back to the catalog.
 
+---
+
 # 9. Forms & Validation
 
 ## Forms Used
@@ -341,6 +442,8 @@ The application uses a custom `useForm` hook to manage form values, input change
 Other recipe fields, including description, category, difficulty, ingredients and instructions, are also required.
 
 The comment field is required before submission.
+
+---
 
 # 10. React-Specific Techniques
 
@@ -416,12 +519,16 @@ The styling includes:
 
 The design uses CSS Flexbox and CSS Grid for layout and responsive behavior.
 
+---
+
 # 11. Typical User Flow
 
 1. A guest visits the Home page and selects Explore Recipes.
 2. The user browses the catalog and selects a recipe to view its details.
 3. The user registers or logs in to access authenticated functionality.
 4. The authenticated user creates a recipe, views their recipes, edits or deletes them, and adds comments to recipes.
+
+---
 
 # 12. Error & Edge Case Handling
 
@@ -450,6 +557,8 @@ This allows the application to render without errors while data is being fetched
 If no recipes or comments are returned, the corresponding list simply has no items to display.
 
 The application does not currently have dedicated empty-state messages or loading indicators.
+
+---
 
 # 13. Installation & Setup
 
@@ -515,13 +624,11 @@ The production files will be generated in the `dist` directory.
 
 ## 6. Preview the Production Build
 
-The project also includes a preview script:
-
 ```bash
 npm run preview
 ```
 
-This runs the production build and starts the Wrangler development environment.
+This runs the production preview using the project's configured preview script.
 
 ## Available Scripts
 
@@ -531,10 +638,12 @@ This runs the production build and starts the Wrangler development environment.
 | `npm run dev` | Starts the Vite development server |
 | `npm run build` | Builds the application for production |
 | `npm run lint` | Runs ESLint |
-| `npm run preview` | Builds and previews using Wrangler |
+| `npm run preview` | Previews the production build |
 | `npm run deploy` | Builds and deploys using Wrangler |
 
-**Note:** The application uses Supabase as its backend. Its Supabase connection settings are configured in the API request module. A valid Supabase project and its corresponding configuration are required for backend functionality.
+**Note:** The application uses Supabase as its backend. Its Supabase connection settings must be configured correctly for backend functionality.
+
+---
 
 # 14. Technologies Used
 
@@ -551,6 +660,7 @@ This runs the production build and starts the Wrangler development environment.
 | Git & GitHub | Version control and repository hosting |
 
 ---
+
 
 
 
