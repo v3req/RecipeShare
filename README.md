@@ -86,42 +86,6 @@ RecipeShare
     └── Comments
 ```
 
-### Frontend Layer
-
-The frontend is developed using React. It is responsible for rendering the user interface and handling user interactions.
-
-The application uses reusable components to separate functionality into smaller, maintainable pieces.
-
-React Router handles client-side navigation between pages.
-
-### Routing & Authorization Layer
-
-The application uses a custom `RouteGuard` component to protect routes that require authentication.
-
-The RouteGuard checks the user's authentication status through the custom `useAuth()` hook.
-
-If the user is not authenticated, they are redirected to the Login page. Otherwise, the protected route is rendered using React Router's `Outlet` component.
-
-### State Management Layer
-
-The Context API is used to share authentication information across the application.
-
-Custom hooks are used to manage forms, authentication access, and persisted state.
-
-### API Layer
-
-The API layer contains functions responsible for communicating with Supabase.
-
-It separates backend requests from UI components, making the application easier to maintain.
-
-### Backend Layer
-
-Supabase provides the backend functionality, including authentication and database operations.
-
-The frontend communicates with Supabase through HTTP requests using the Fetch API.
-
----
-
 # 3. User Access & Permissions
 
 ## Guest (Not Authenticated)
@@ -366,7 +330,7 @@ Comments are retrieved using `getAllComments(recipeId)`.
 
 The data is displayed using React state and reusable components such as `RecipeCard`, `Comment` and `CommentsSection`.
 
-## Update (PUT/PATCH)
+## Update (PUT)
 
 The recipe owner can edit an existing recipe.
 
